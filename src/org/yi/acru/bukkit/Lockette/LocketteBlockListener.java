@@ -35,19 +35,14 @@ import org.yi.acru.bukkit.PluginCore;
 public class LocketteBlockListener implements Listener{
 	private static Lockette		plugin;
 	
-	static byte faceList[];     
+	static byte faceList[] = {5, 3, 4, 2};     
 	static {
-		if (BlockFace.NORTH.getModX() == -1) {
-			faceList[0] = 5;
-			faceList[1] = 3;
-			faceList[2] = 4;
-			faceList[3] = 2;
-		} else {
+		if (BlockFace.NORTH.getModX() != -1) {
 			faceList[0] = 2;
 			faceList[1] = 5;
 			faceList[2] = 3;
 			faceList[3] = 4;
-		}		
+		}
 	}
 	
 	final int		materialList[] = {Material.CHEST.getId(), Material.DISPENSER.getId(),
