@@ -10,6 +10,18 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.7.5:
+
+	Update blockFacing code for bukkit change (metalhedd).
+	Added Simplified chinese language file (supplied by ngbeslhang).
+
+Version 1.7.4:
+
+	Improved the error handling and reporting when loading string files.
+    Corrected a number of issues with existing language translations.
+    Added Swedish language translation.
+    Added Italian language translation. 
+	
 Version 1.7.3:
 
     Corrected an undefined method error.
