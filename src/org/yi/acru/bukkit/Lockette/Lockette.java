@@ -1175,7 +1175,7 @@ public class Lockette extends PluginCore{
 		checkBlock = block.getRelative(BlockFace.NORTH);
 		if(checkBlock.getTypeId() == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 4){
+			if(face == 2){
 				// Ignore a sign being created.
 				
 				if(ignore == null) doCheck = true;
@@ -1198,7 +1198,7 @@ public class Lockette extends PluginCore{
 		checkBlock = block.getRelative(BlockFace.EAST);
 		if(checkBlock.getTypeId() == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 2){
+			if(face == 5){
 				// Ignore a sign being created.
 				
 				if(ignore == null) doCheck = true;
@@ -1221,7 +1221,7 @@ public class Lockette extends PluginCore{
 		checkBlock = block.getRelative(BlockFace.SOUTH);
 		if(checkBlock.getTypeId() == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 5){
+			if(face == 3){
 				// Ignore a sign being created.
 				
 				if(ignore == null) doCheck = true;
@@ -1244,7 +1244,7 @@ public class Lockette extends PluginCore{
 		checkBlock = block.getRelative(BlockFace.WEST);
 		if(checkBlock.getTypeId() == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 3){
+			if(face == 4){
 				// Ignore a sign being created.
 				
 				if(ignore == null) doCheck = true;
@@ -1320,7 +1320,7 @@ public class Lockette extends PluginCore{
 		type = checkBlock.getTypeId();
 		if(type == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 4){
+			if(face == 2){
 				Sign		sign = (Sign) checkBlock.getState();
 				String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
 				
@@ -1343,7 +1343,7 @@ public class Lockette extends PluginCore{
 		type = checkBlock.getTypeId();
 		if(type == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 2){
+			if(face == 5){
 				Sign		sign = (Sign) checkBlock.getState();
 				String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
 
@@ -1366,7 +1366,7 @@ public class Lockette extends PluginCore{
 		type = checkBlock.getTypeId();
 		if(type == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 5){
+			if(face == 3){
 				Sign		sign = (Sign) checkBlock.getState();
 				String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
 
@@ -1389,7 +1389,7 @@ public class Lockette extends PluginCore{
 		type = checkBlock.getTypeId();
 		if(type == Material.WALL_SIGN.getId()){
 			face = checkBlock.getData();
-			if(face == 3){
+			if(face == 4){
 				Sign		sign = (Sign) checkBlock.getState();
 				String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
 
@@ -1422,7 +1422,7 @@ public class Lockette extends PluginCore{
 		Block		checkBlock;
 		
 		
-		if(face != 4){
+		if(face != 2){
 			checkBlock = block.getRelative(BlockFace.NORTH);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
@@ -1430,7 +1430,7 @@ public class Lockette extends PluginCore{
 			}
 		}
 		
-		if(face != 2){
+		if(face != 5){
 			checkBlock = block.getRelative(BlockFace.EAST);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
@@ -1438,7 +1438,7 @@ public class Lockette extends PluginCore{
 			}
 		}
 		
-		if(face != 5){
+		if(face != 3){
 			checkBlock = block.getRelative(BlockFace.SOUTH);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
@@ -1446,7 +1446,7 @@ public class Lockette extends PluginCore{
 			}
 		}
 		
-		if(face != 3){
+		if(face != 4){
 			checkBlock = block.getRelative(BlockFace.WEST);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
@@ -1464,10 +1464,10 @@ public class Lockette extends PluginCore{
 		
 		byte		face;
 
-		if(blockFace == BlockFace.NORTH) face = 4;
-		else if(blockFace == BlockFace.EAST) face = 2;
-		else if(blockFace == BlockFace.SOUTH) face = 5;
-		else if(blockFace == BlockFace.WEST) face = 3;
+		if(blockFace == BlockFace.NORTH) face = 2;
+		else if(blockFace == BlockFace.EAST) face = 5;
+		else if(blockFace == BlockFace.SOUTH) face = 3;
+		else if(blockFace == BlockFace.WEST) face = 4;
 		else return;
 		
 		
@@ -1476,7 +1476,7 @@ public class Lockette extends PluginCore{
 		
 		checkBlock = block.getRelative(BlockFace.NORTH);
 		if(checkBlock.getTypeId() == Material.CHEST.getId()){
-			if((face == 2) || (face == 3)){
+			if((face == 4) || (face == 5)){
 				block.setData(face);
 				checkBlock.setData(face);
 			}
@@ -1485,7 +1485,7 @@ public class Lockette extends PluginCore{
 		
 		checkBlock = block.getRelative(BlockFace.EAST);
 		if(checkBlock.getTypeId() == Material.CHEST.getId()){
-			if((face == 4) || (face == 5)){
+			if((face == 2) || (face == 3)){
 				block.setData(face);
 				checkBlock.setData(face);
 			}
@@ -1494,7 +1494,7 @@ public class Lockette extends PluginCore{
 		
 		checkBlock = block.getRelative(BlockFace.SOUTH);
 		if(checkBlock.getTypeId() == Material.CHEST.getId()){
-			if((face == 2) || (face == 3)){
+			if((face == 4) || (face == 5)){
 				block.setData(face);
 				checkBlock.setData(face);
 			}
@@ -1503,7 +1503,7 @@ public class Lockette extends PluginCore{
 		
 		checkBlock = block.getRelative(BlockFace.WEST);
 		if(checkBlock.getTypeId() == Material.CHEST.getId()){
-			if((face == 4) || (face == 5)){
+			if((face == 2) || (face == 3)){
 				block.setData(face);
 				checkBlock.setData(face);
 			}

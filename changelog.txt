@@ -10,6 +10,11 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.7.6:
+
+	Bugfix for sign detection with blockFacing changes.
+	Update pluginCore for blockFace changes.
+
 Version 1.7.5:
 
 	Update blockFacing code for bukkit change (metalhedd).

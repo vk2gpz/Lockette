@@ -35,13 +35,15 @@ import org.yi.acru.bukkit.PluginCore;
 public class LocketteBlockListener implements Listener{
 	private static Lockette		plugin;
 	
-	static byte faceList[] = {5, 3, 4, 2};     
+	// Facings are reversed as we are attaching signs to blocks.
+	static byte faceList[] = {5, 3, 4, 2};     // SOUTH, WEST, NORTH, EAST
 	static {
 		if (BlockFace.NORTH.getModX() != -1) {
-			faceList[0] = 2;
-			faceList[1] = 5;
-			faceList[2] = 3;
-			faceList[3] = 4;
+			// Post CraftBukkit 2502
+			faceList[0] = 3; // SOUTH
+			faceList[1] = 4; // WEST
+			faceList[2] = 2; // NORTH
+			faceList[3] = 5; // EAST
 		}
 	}
 	
