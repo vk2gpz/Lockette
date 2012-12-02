@@ -1426,7 +1426,7 @@ public class Lockette extends PluginCore{
 			checkBlock = block.getRelative(BlockFace.NORTH);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
-				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 5);
+				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 3);
 			}
 		}
 		
@@ -1434,7 +1434,7 @@ public class Lockette extends PluginCore{
 			checkBlock = block.getRelative(BlockFace.EAST);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
-				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 3);
+				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 4);
 			}
 		}
 		
@@ -1442,7 +1442,7 @@ public class Lockette extends PluginCore{
 			checkBlock = block.getRelative(BlockFace.SOUTH);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
-				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 4);
+				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 2);
 			}
 		}
 		
@@ -1450,7 +1450,7 @@ public class Lockette extends PluginCore{
 			checkBlock = block.getRelative(BlockFace.WEST);
 			if(checkBlock.getTypeId() == Material.CHEST.getId()){
 				++count;
-				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 2);
+				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 5);
 			}
 		}
 		

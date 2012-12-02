@@ -10,6 +10,10 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.7.7
+	
+	Fix Expanding chests.
+
 Version 1.7.6:
 
 	Bugfix for sign detection with blockFacing changes.
