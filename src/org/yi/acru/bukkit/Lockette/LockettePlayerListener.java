@@ -334,9 +334,6 @@ public class LockettePlayerListener implements Listener{
 		
 		if(canInteract(block, signBlock, player, true)) allow = true;
 		
-		System.out.println("Door clicked: allow = " + allow + " : isProtected = " + (signBlock != null));
-		
-		
 		/*
 		// Fee stuff...
 		if(!allow){
