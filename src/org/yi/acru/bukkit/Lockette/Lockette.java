@@ -273,6 +273,7 @@ public class Lockette extends PluginCore{
 			customBlockList.add(Material.ENCHANTMENT_TABLE.getId());
 			customBlockList.add(Material.JUKEBOX.getId());
 			customBlockList.add(Material.DIAMOND_BLOCK.getId());
+			customBlockList.add(Material.ANVIL.getId());
 			properties.set("custom-lockable-block-list", customBlockList);
 			propChanged = true;
 		}

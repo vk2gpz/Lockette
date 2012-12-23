@@ -187,6 +187,9 @@ public class LockettePlayerListener implements Listener{
 		
 		if(action == Action.RIGHT_CLICK_BLOCK){
 			if(Lockette.protectTrapDoors) if(type == Material.TRAP_DOOR.getId()){
+				
+				System.out.println("TrapDoor");
+				
 				if(interactDoor(block, player)) return;
 				
 				event.setUseInteractedBlock(Result.DENY);
@@ -330,6 +333,10 @@ public class LockettePlayerListener implements Listener{
 		boolean		allow = false;
 		
 		if(canInteract(block, signBlock, player, true)) allow = true;
+		
+		System.out.println("Door clicked: allow = " + allow + " : isProtected = " + (signBlock != null));
+		
+		
 		/*
 		// Fee stuff...
 		if(!allow){

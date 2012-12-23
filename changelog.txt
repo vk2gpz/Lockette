@@ -10,6 +10,15 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.7.9
+
+	Added Anvils to the default custom block protection list.
+
+Version 1.7.8
+
+	Fix protection of trap doors
+	Update PluginCore to 1.3.6
+
 Version 1.7.7
 	
 	Fix Expanding chests.
