@@ -188,8 +188,6 @@ public class LockettePlayerListener implements Listener{
 		if(action == Action.RIGHT_CLICK_BLOCK){
 			if(Lockette.protectTrapDoors) if(type == Material.TRAP_DOOR.getId()){
 				
-				System.out.println("TrapDoor");
-				
 				if(interactDoor(block, player)) return;
 				
 				event.setUseInteractedBlock(Result.DENY);
