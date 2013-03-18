@@ -481,6 +481,13 @@ public class LocketteBlockListener implements Listener {
 		return true;
 	}
 
+	/**
+	 * Check for a private sign and check we are the owner of this block.
+	 * 
+	 * @param block
+	 * @param player
+	 * @return true if no owner or we are the owner named on the private sign.
+	 */
 	private boolean validateOwner(Block block, Player player) {
 
 		Block signBlock = Lockette.findBlockOwner(block);
