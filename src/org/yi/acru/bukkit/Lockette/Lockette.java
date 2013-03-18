@@ -79,8 +79,8 @@ public class Lockette extends PluginCore{
 		
 		// Check build version.
 		
-		final int	recBuild = 2502;
-		final int	minBuild = 2502;
+		final int	recBuild = 2668;
+		final int	minBuild = 2646;
 		int			printBuild;
 		float		build = getBuildVersion();
 		
@@ -274,6 +274,7 @@ public class Lockette extends PluginCore{
 			customBlockList.add(Material.JUKEBOX.getId());
 			customBlockList.add(Material.DIAMOND_BLOCK.getId());
 			customBlockList.add(Material.ANVIL.getId());
+			customBlockList.add(Material.HOPPER.getId());
 			properties.set("custom-lockable-block-list", customBlockList);
 			propChanged = true;
 		}

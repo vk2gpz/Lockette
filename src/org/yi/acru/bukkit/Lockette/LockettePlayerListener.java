@@ -183,6 +183,7 @@ public class LockettePlayerListener implements Listener{
 		Block		block = event.getClickedBlock();
 		int			type = block.getTypeId();
 		BlockFace	face = event.getBlockFace();
+		ItemStack	item;
 		
 		
 		if(action == Action.RIGHT_CLICK_BLOCK){
@@ -219,7 +220,7 @@ public class LockettePlayerListener implements Listener{
 				
 				// Trying something out....
 				if(Lockette.directPlacement) if(event.hasItem()) if((face != BlockFace.UP) && (face != BlockFace.DOWN)){
-					ItemStack		item = event.getItem();
+					item = event.getItem();
 					
 					if(item.getTypeId() == Material.SIGN.getId()){
 						Block		checkBlock = block.getRelative(face);
@@ -255,7 +256,7 @@ public class LockettePlayerListener implements Listener{
 			}
 			
 			if(type == Material.DIRT.getId()) if(event.hasItem()){
-				ItemStack		item = event.getItem();
+				item = event.getItem();
 				
 				type = item.getTypeId();
 				
@@ -276,6 +277,7 @@ public class LockettePlayerListener implements Listener{
 					}
 				}
 			}
+			
 		}
 		else if(action == Action.LEFT_CLICK_BLOCK){
 			if(Lockette.protectTrapDoors) if(type == Material.TRAP_DOOR.getId()){
