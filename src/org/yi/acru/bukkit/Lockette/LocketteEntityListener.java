@@ -39,7 +39,7 @@ public class LocketteEntityListener implements Listener{
 	// Start of event section
 	
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event){
 		if(event.isCancelled()) return;
 		
@@ -51,18 +51,20 @@ public class LocketteEntityListener implements Listener{
 		// Check the block list for any protected blocks, and cancel the event if any are found.
 		
 		for(x = 0; x < event.blockList().size(); ++x){
-			block = event.blockList().get(x);
-			
-			if(Lockette.isProtected(block)){
-				//event.setCancelled(true);
-				//return;
-				event.blockList().remove(x);
-				--x;
-				//--count;
-				continue;
-			}
 			
 			if(Lockette.explosionProtectionAll){
+				
+				block = event.blockList().get(x);
+				
+				if(Lockette.isProtected(block)){
+					//event.setCancelled(true);
+					//return;
+					event.blockList().remove(x);
+					--x;
+					//--count;
+					continue;
+				}
+			
 				if((block.getTypeId() == Material.CHEST.getId()) || (block.getTypeId() == Material.DISPENSER.getId()) ||
 						(block.getTypeId() == Material.FURNACE.getId()) || (block.getTypeId() == Material.BURNING_FURNACE.getId()) ||
 						(block.getTypeId() == Material.BREWING_STAND.getId())){

@@ -1,6 +1,6 @@
 name: Lockette
 main: org.yi.acru.bukkit.Lockette.Lockette
-version: 1.7.11
+version: 1.7.12
 author: Acru
 description: A simple plugin for locking containers and doors without passwords or database files.  Inspired by the old hmod plugins Lock by Roman "kingseta" Pramberger and ChestCapsule by Fernando "Fergo".
 commands:
@@ -34,6 +34,7 @@ permissions:
             lockette.user.create.chest: true
             lockette.user.create.furnace: true
             lockette.user.create.dispenser: true
+            lockette.user.create.dropper: true
             lockette.user.create.brewingstand: true
             lockette.user.create.custom: true
             lockette.user.create.trapdoor: true
@@ -52,6 +53,7 @@ permissions:
             lockette.admin.create.chest: true
             lockette.admin.create.furnace: true
             lockette.admin.create.dispenser: true
+            lockette.admin.create.dropper: true
             lockette.admin.create.brewingstand: true
             lockette.admin.create.custom: true
             lockette.admin.create.trapdoor: true
@@ -61,6 +63,8 @@ permissions:
     lockette.user.create.furnace:
         default: op
     lockette.user.create.dispenser:
+        default: op
+    lockette.user.create.dropper:
         default: op
     lockette.user.create.brewingstand:
         default: op
@@ -75,6 +79,8 @@ permissions:
     lockette.admin.create.furnace:
         default: op
     lockette.admin.create.dispenser:
+        default: op
+    lockette.admin.create.dropper:
         default: op
     lockette.admin.create.brewingstand:
         default: op

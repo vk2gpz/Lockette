@@ -52,7 +52,7 @@ public class LockettePlayerListener implements Listener{
 	// Start of event section
 	
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event){
 		String[]	command = event.getMessage().split(" ", 3);
 		
@@ -174,7 +174,7 @@ public class LockettePlayerListener implements Listener{
 	}
 	
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(!event.hasBlock()) return;
 		
@@ -187,17 +187,20 @@ public class LockettePlayerListener implements Listener{
 		
 		
 		if(action == Action.RIGHT_CLICK_BLOCK){
-			if(Lockette.protectTrapDoors) if(type == Material.TRAP_DOOR.getId()){
+			
+			// Check we are allowed to used this trapdoor
+			if ((Lockette.protectTrapDoors) && (type == Material.TRAP_DOOR.getId())) {
 				
-				if(interactDoor(block, player)) return;
+				if (interactDoor(block, player)) return;
 				
 				event.setUseInteractedBlock(Result.DENY);
 				event.setUseItemInHand(Result.DENY);
 				return;
 			}
 			
-			if(Lockette.protectDoors) if((type == Material.WOODEN_DOOR.getId()) || (type == Material.IRON_DOOR_BLOCK.getId()) || (type == materialFenceGate)){
-				if(interactDoor(block, player)) return;
+			// Check we are allowed to used this door
+			if((Lockette.protectDoors) && ((type == Material.WOODEN_DOOR.getId()) || (type == Material.IRON_DOOR_BLOCK.getId()) || (type == materialFenceGate))) {
+				if (interactDoor(block, player)) return;
 				
 				event.setUseInteractedBlock(Result.DENY);
 				event.setUseItemInHand(Result.DENY);
@@ -209,12 +212,12 @@ public class LockettePlayerListener implements Listener{
 				return;
 			}
 			
-			if(type == Material.CHEST.getId()){
+			if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId())) {
 				// Try at making a 1.7->1.8 chest fixer.
 				Lockette.rotateChestOrientation(block, face);
 			}
 			
-			if((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) ||
+			if((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId()) || (type == Material.DISPENSER.getId())|| (type == Material.DROPPER.getId()) ||
 					(type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) ||
 					(type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)){
 				
@@ -318,10 +321,9 @@ public class LockettePlayerListener implements Listener{
 		
 		if(signBlock == null) return(true);
 		
-		boolean		wooden = (block.getTypeId() == Material.WOODEN_DOOR.getId());
+		boolean		wooden = ((block.getTypeId() == Material.WOODEN_DOOR.getId()) || (block.getTypeId() == Material.FENCE_GATE.getId()));
 		boolean		trap = false;
 		
-		if(block.getTypeId() == materialFenceGate) wooden = true;
 		if(Lockette.protectTrapDoors) if(block.getTypeId() == Material.TRAP_DOOR.getId()){
 			wooden = true;
 			trap = true;

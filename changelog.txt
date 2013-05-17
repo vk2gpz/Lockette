@@ -10,6 +10,16 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.7.12
+	
+	Add support for droppers and trapped chests (new permission node 'lockette.user.create.dropper' and 'lockette.admin.create.dropper').
+	Fixed Auto chest rotation.
+	Lockette will not ONLY protect items from explosions IF 'explosion-protection-all' is true. Be sure to check your config. Default used to be false.
+	Changed all event priorities which were HIGHEST to LOW. Other plugins (Shopkeepers) can now see if Lockette has cancelled an event.
+	Updated recomended and minimum Craftbukkit versions.
+		- rec: 2771
+		- min: 2735
+
 Version 1.7.11
 	
 	Prevent the placement of hoppers on protected blocks other than by the blocks owner.

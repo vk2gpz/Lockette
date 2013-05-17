@@ -42,7 +42,7 @@ public class LocketteWorldListener implements Listener{
 	// Start of event section
 	
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onStructureGrow(StructureGrowEvent event){
 		if(event.isCancelled()) return;
 		

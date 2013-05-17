@@ -204,7 +204,7 @@ public class Lockette extends PluginCore{
 		msgHelp = properties.getBoolean("enable-messages-help", true);
 		properties.set("enable-messages-help", msgHelp);
 		
-		explosionProtectionAll = properties.getBoolean("explosion-protection-all", false);
+		explosionProtectionAll = properties.getBoolean("explosion-protection-all", true);
 		properties.set("explosion-protection-all", explosionProtectionAll);
 		rotateChests = properties.getBoolean("enable-chest-rotation", false);
 		properties.set("enable-chest-rotation", rotateChests);
@@ -947,10 +947,10 @@ public class Lockette extends PluginCore{
 		
 		// Check known block types.
 		
-		if(type == Material.CHEST.getId()){
+		if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId())) {
 			return(findBlockOwnerBase(block, null, false, false, false, false, false));
 		}
-		if((type == Material.DISPENSER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) ||
+		if((type == Material.DISPENSER.getId()) || (type == Material.DROPPER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) ||
 				(type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)){
 			return(findBlockOwnerBase(block, null, false, false, false, false, false));
 		}
@@ -1035,10 +1035,10 @@ public class Lockette extends PluginCore{
 		
 		// Check known block types.
 		
-		if(type == Material.CHEST.getId()){
+		if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId())) {
 			return(findBlockOwnerBase(block, ignore, true, false, false, false, false));
 		}
-		if((type == Material.DISPENSER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) ||
+		if((type == Material.DISPENSER.getId()) || (type == Material.DROPPER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) ||
 				(type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)){
 			return(findBlockOwnerBase(block, ignore, false, false, false, false, false));
 		}
@@ -1273,7 +1273,7 @@ public class Lockette extends PluginCore{
 	protected static List<Block> findBlockUsers(Block block, Block signBlock){
 		int			type = block.getTypeId();
 		
-		if(type == Material.CHEST.getId()) return(findBlockUsersBase(block, true, false, false, false, 0));
+		if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId())) return(findBlockUsersBase(block, true, false, false, false, 0));
 		if(Lockette.protectTrapDoors) if(type == Material.TRAP_DOOR.getId()){
 			return(findBlockUsersBase(getTrapDoorAttachedBlock(block), false, false, false, true, 0));
 		}
@@ -1426,7 +1426,7 @@ public class Lockette extends PluginCore{
 		
 		if(face != 2){
 			checkBlock = block.getRelative(BlockFace.NORTH);
-			if(checkBlock.getTypeId() == Material.CHEST.getId()){
+			if (((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 				++count;
 				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 3);
 			}
@@ -1434,7 +1434,7 @@ public class Lockette extends PluginCore{
 		
 		if(face != 5){
 			checkBlock = block.getRelative(BlockFace.EAST);
-			if(checkBlock.getTypeId() == Material.CHEST.getId()){
+			if (((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 				++count;
 				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 4);
 			}
@@ -1442,7 +1442,7 @@ public class Lockette extends PluginCore{
 		
 		if(face != 3){
 			checkBlock = block.getRelative(BlockFace.SOUTH);
-			if(checkBlock.getTypeId() == Material.CHEST.getId()){
+			if (((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 				++count;
 				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 2);
 			}
@@ -1450,7 +1450,7 @@ public class Lockette extends PluginCore{
 		
 		if(face != 4){
 			checkBlock = block.getRelative(BlockFace.WEST);
-			if(checkBlock.getTypeId() == Material.CHEST.getId()){
+			if (((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 				++count;
 				if(face == 0) count += findChestCountNearBase(checkBlock, (byte) 5);
 			}
@@ -1460,8 +1460,9 @@ public class Lockette extends PluginCore{
 	}
 	
 	
-	protected static void rotateChestOrientation(Block block, BlockFace blockFace){
-		if(block.getTypeId() != Material.CHEST.getId()) return;
+	protected static void rotateChestOrientation(Block block, BlockFace blockFace) {
+		
+		if ((block.getTypeId() != Material.CHEST.getId()) && (block.getTypeId() != Material.TRAPPED_CHEST.getId())) return;
 		if(!rotateChests) if(block.getData() != 0) return;
 		
 		byte		face;
@@ -1477,7 +1478,7 @@ public class Lockette extends PluginCore{
 		
 		
 		checkBlock = block.getRelative(BlockFace.NORTH);
-		if(checkBlock.getTypeId() == Material.CHEST.getId()){
+		if(((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 			if((face == 4) || (face == 5)){
 				block.setData(face);
 				checkBlock.setData(face);
@@ -1486,7 +1487,7 @@ public class Lockette extends PluginCore{
 		}
 		
 		checkBlock = block.getRelative(BlockFace.EAST);
-		if(checkBlock.getTypeId() == Material.CHEST.getId()){
+		if(((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 			if((face == 2) || (face == 3)){
 				block.setData(face);
 				checkBlock.setData(face);
@@ -1495,7 +1496,7 @@ public class Lockette extends PluginCore{
 		}
 		
 		checkBlock = block.getRelative(BlockFace.SOUTH);
-		if(checkBlock.getTypeId() == Material.CHEST.getId()){
+		if(((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 			if((face == 4) || (face == 5)){
 				block.setData(face);
 				checkBlock.setData(face);
@@ -1504,7 +1505,7 @@ public class Lockette extends PluginCore{
 		}
 		
 		checkBlock = block.getRelative(BlockFace.WEST);
-		if(checkBlock.getTypeId() == Material.CHEST.getId()){
+		if(((checkBlock.getTypeId() == Material.CHEST.getId()) || (checkBlock.getTypeId() == Material.TRAPPED_CHEST.getId())) && (checkBlock.getTypeId() == block.getTypeId())) {
 			if((face == 2) || (face == 3)){
 				block.setData(face);
 				checkBlock.setData(face);

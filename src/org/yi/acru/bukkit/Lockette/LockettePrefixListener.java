@@ -41,7 +41,7 @@ public class LockettePrefixListener implements Listener{
 	// Start of event section
 	
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event){
 		//if(event.isCancelled()) return;
 		

@@ -45,7 +45,7 @@ public class LocketteBlockListener implements Listener {
 		}
 	}
 
-	final int materialList[] = { Material.CHEST.getId(), Material.DISPENSER.getId(), Material.FURNACE.getId(), Material.BURNING_FURNACE.getId(), Material.BREWING_STAND.getId(), Material.TRAP_DOOR.getId(), Material.WOODEN_DOOR.getId(), Material.IRON_DOOR_BLOCK.getId(), Material.FENCE_GATE.getId() };
+	final int materialList[] = { Material.CHEST.getId(), Material.TRAPPED_CHEST.getId(), Material.DISPENSER.getId(), Material.DROPPER.getId(), Material.FURNACE.getId(), Material.BURNING_FURNACE.getId(), Material.BREWING_STAND.getId(), Material.TRAP_DOOR.getId(), Material.WOODEN_DOOR.getId(), Material.IRON_DOOR_BLOCK.getId(), Material.FENCE_GATE.getId() };
 	final int materialListFurnaces[] = { Material.FURNACE.getId(), Material.BURNING_FURNACE.getId() };
 	final int materialListDoors[] = { Material.WOODEN_DOOR.getId(), Material.IRON_DOOR_BLOCK.getId(), Material.FENCE_GATE.getId() };
 	final int materialListBad[] = { 50, 63, 64, 65, 68, 71, 75, 76, 96 };//,12,13,18,46// sand, gravel, leaves, tnt
@@ -65,7 +65,7 @@ public class LocketteBlockListener implements Listener {
 	//********************************************************************************************************************
 	// Start of event section
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
 
 		Player player = event.getPlayer();
@@ -191,7 +191,7 @@ public class LocketteBlockListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
 
 		Block block = event.getBlock();
@@ -221,7 +221,7 @@ public class LocketteBlockListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
 
 		if (!(event.isSticky()))
@@ -236,7 +236,11 @@ public class LocketteBlockListener implements Listener {
 
 		if (type == Material.CHEST.getId())
 			return;
+		if (type == Material.TRAPPED_CHEST.getId())
+			return;
 		if (type == Material.DISPENSER.getId())
+			return;
+		if (type == Material.DROPPER.getId())
 			return;
 		if (type == Material.FURNACE.getId())
 			return;
@@ -252,7 +256,7 @@ public class LocketteBlockListener implements Listener {
 			event.setCancelled(true);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event) {
 
 		if (event.isCancelled())
@@ -302,14 +306,18 @@ public class LocketteBlockListener implements Listener {
 
 				type = checkBlock.getTypeId();
 
-				if ((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)) {
+				
+				if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.DROPPER.getId())
+				|| (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId())
+				|| Lockette.isInList(type, Lockette.customBlockList)) {
 
 					Sign sign = (Sign) block.getState();
+					
 					int length = player.getName().length();
-
+	
 					if (length > 15)
 						length = 15;
-
+	
 					if (Lockette.isProtected(checkBlock)) {
 						// Add a users sign only if owner.
 						if (Lockette.isOwner(checkBlock, player.getName())) {
@@ -318,28 +326,29 @@ public class LocketteBlockListener implements Listener {
 							sign.setLine(2, "");
 							sign.setLine(3, "");
 							sign.update(true);
-
+	
 							plugin.localizedMessage(player, null, "msg-owner-adduser");
 						} else
 							event.setCancelled(true);
+							
+						return;
 					} else {
 						// Check for permission first.
-
 						if (!checkPermissions(player, block, checkBlock)) {
 							event.setCancelled(true);
-
+	
 							plugin.localizedMessage(player, null, "msg-error-permission");
 							return;
 						}
-
+	
 						sign.setLine(0, Lockette.altPrivate);
 						sign.setLine(1, player.getName().substring(0, length));
 						sign.setLine(2, "");
 						sign.setLine(3, "");
 						sign.update(true);
-
-						Lockette.log.info("[" + plugin.getDescription().getName() + "] " + player.getName() + " has claimed a container.");
-
+	
+						Lockette.log.info("[" + plugin.getDescription().getName() + "] " + player.getName() + " has protected a block or door.");
+	
 						plugin.localizedMessage(player, null, "msg-owner-claim");
 					}
 				}
@@ -348,9 +357,9 @@ public class LocketteBlockListener implements Listener {
 			}
 		}
 
-		// The rest is for chests and hoppers only.		
+		// The rest is for placing chests and hoppers only.		
 
-		if (type == Material.CHEST.getId()) {
+		if ((type == Material.CHEST.getId()) || (type == Material.TRAPPED_CHEST.getId())) {
 
 			// Count nearby chests to find illegal sized chests.
 
@@ -401,7 +410,7 @@ public class LocketteBlockListener implements Listener {
 			checkBlock = block.getRelative(BlockFace.UP);
 			type = checkBlock.getTypeId();
 
-			if ((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)) {
+			if ((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.DROPPER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)) {
 
 				if (!validateOwner(checkBlock, player)) {
 
@@ -415,7 +424,7 @@ public class LocketteBlockListener implements Listener {
 			checkBlock = block.getRelative(BlockFace.DOWN);
 			type = checkBlock.getTypeId();
 
-			if ((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)) {
+			if ((type == Material.CHEST.getId()) || (type == Material.DISPENSER.getId()) || (type == Material.DROPPER.getId()) || (type == Material.FURNACE.getId()) || (type == Material.BURNING_FURNACE.getId()) || (type == Material.BREWING_STAND.getId()) || Lockette.isInList(type, Lockette.customBlockList)) {
 
 				if (!validateOwner(checkBlock, player)) {
 
@@ -466,6 +475,9 @@ public class LocketteBlockListener implements Listener {
 					create = true;
 			} else if (type == Material.DISPENSER.getId()) {
 				if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.dispenser"))
+					create = true;
+			} else if (type == Material.DROPPER.getId()) {
+				if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.dropper"))
 					create = true;
 			} else if (type == Material.BREWING_STAND.getId()) {
 				if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.brewingstand"))
@@ -538,7 +550,7 @@ public class LocketteBlockListener implements Listener {
 	 * rightclickSign(block, player); }
 	 */
 
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockRedstoneChange(BlockRedstoneEvent event) {
 
 		Block block = event.getBlock();
@@ -599,7 +611,7 @@ public class LocketteBlockListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event) {
 
 		//if(event.isCancelled()) return;
@@ -688,7 +700,7 @@ public class LocketteBlockListener implements Listener {
 			//Player		player = event.getPlayer();
 			//Block		block = event.getBlock();
 			//boolean		typeWallSign = (block.getTypeId() == Material.WALL_SIGN.getId());
-			boolean doChests = true, doFurnaces = true, doDispensers = true;
+			boolean doChests = true, doFurnaces = true, doDispensers = true, doDroppers = true;
 			boolean doBrewingStands = true, doCustoms = true;
 			boolean doTrapDoors = true, doDoors = true;
 
@@ -709,6 +721,7 @@ public class LocketteBlockListener implements Listener {
 				doChests = false;
 				doFurnaces = false;
 				doDispensers = false;
+				doDroppers = false;
 				doBrewingStands = false;
 				doCustoms = false;
 				doTrapDoors = false;
@@ -719,6 +732,7 @@ public class LocketteBlockListener implements Listener {
 					doChests = true;
 					doFurnaces = true;
 					doDispensers = true;
+					doDroppers = true;
 					doBrewingStands = true;
 					doCustoms = true;
 					doTrapDoors = true;
@@ -735,6 +749,10 @@ public class LocketteBlockListener implements Listener {
 					if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.dispenser")) {
 						create = true;
 						doDispensers = true;
+					}
+					if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.dropper")) {
+						create = true;
+						doDroppers = true;
 					}
 					if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.brewingstand")) {
 						create = true;
@@ -896,7 +914,7 @@ public class LocketteBlockListener implements Listener {
 					}
 
 					// Check if allowed by type.
-					if (checkBlock[x].getTypeId() == Material.CHEST.getId()) {
+					if ((checkBlock[x].getTypeId() == Material.CHEST.getId()) || (checkBlock[x].getTypeId() == Material.TRAPPED_CHEST.getId())) {
 						if (!doChests) {
 							deny = true;
 							continue;
@@ -914,6 +932,12 @@ public class LocketteBlockListener implements Listener {
 							continue;
 						}
 						lastType = 3;
+					} else if (checkBlock[x].getTypeId() == Material.DROPPER.getId()) {
+						if (!doDroppers) {
+							deny = true;
+							continue;
+						}
+						lastType = 8;
 					} else if (checkBlock[x].getTypeId() == Material.BREWING_STAND.getId()) {
 						if (!doBrewingStands) {
 							deny = true;
@@ -1008,6 +1032,9 @@ public class LocketteBlockListener implements Listener {
 						anyone = false;
 				} else if (type == 3) {	// Dispenser
 					if (!plugin.hasPermission(block.getWorld(), player, "lockette.admin.create.dispenser"))
+						anyone = false;
+				} else if (type == 8) {	// Dropper
+					if (!plugin.hasPermission(block.getWorld(), player, "lockette.admin.create.dropper"))
 						anyone = false;
 				} else if (type == 6) {	// Brewing Stand
 					if (!plugin.hasPermission(block.getWorld(), player, "lockette.admin.create.brewingstand"))
