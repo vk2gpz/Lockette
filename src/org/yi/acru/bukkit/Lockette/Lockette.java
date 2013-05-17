@@ -79,8 +79,8 @@ public class Lockette extends PluginCore{
 		
 		// Check build version.
 		
-		final int	recBuild = 2668;
-		final int	minBuild = 2646;
+		final int	recBuild = 2771;
+		final int	minBuild = 2735;
 		int			printBuild;
 		float		build = getBuildVersion();
 		
