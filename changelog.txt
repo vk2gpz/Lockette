@@ -10,6 +10,10 @@ http://dev.bukkit.org/server-mods/lockette/pages/lockette-change-log/
 
 * But here is a copy/paste:
 
+Version 1.8.0
+
+    Add support for doors and IRON_TRAPDOOR introduced in 1.8.
+	
 Version 1.7.12
 	
 	Add support for droppers and trapped chests (new permission node 'lockette.user.create.dropper' and 'lockette.admin.create.dropper').

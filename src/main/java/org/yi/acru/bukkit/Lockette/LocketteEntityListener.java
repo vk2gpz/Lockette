@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
 import org.bukkit.event.entity.EntityExplodeEvent;
-
+import org.yi.acru.bukkit.BlockUtil;
 
 
 public class LocketteEntityListener implements Listener{
@@ -64,10 +64,8 @@ public class LocketteEntityListener implements Listener{
 					//--count;
 					continue;
 				}
-			
-				if((block.getTypeId() == Material.CHEST.getId()) || (block.getTypeId() == Material.DISPENSER.getId()) ||
-						(block.getTypeId() == Material.FURNACE.getId()) || (block.getTypeId() == Material.BURNING_FURNACE.getId()) ||
-						(block.getTypeId() == Material.BREWING_STAND.getId())){
+
+				if (BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListNonDoors)) {
 					//event.setCancelled(true);
 					//return;
 					event.blockList().remove(x);

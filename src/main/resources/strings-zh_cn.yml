@@ -1,0 +1,45 @@
+language: Chinese
+author: ngbeslhang
+editors: ''
+version: 1
+alternate-private-tag: 私有
+alternate-moreusers-tag: 更多用户
+alternate-everyone-tag: 大家
+alternate-operators-tag: 管理员
+alternate-timer-tag: 计时器
+alternate-fee-tag: 费用
+msg-user-conflict-door: 发生冲突的门已被移除！
+msg-user-illegal: 不正常的箱子已被移除！
+msg-user-resize-owned: 你不能重新改变***拥有的箱子形状。
+msg-help-chest: 请在箱子旁放置以[私有]为开头的牌子以锁上箱子。
+msg-owner-release: 你已解锁了一个箱子！
+msg-admin-release: (管理员)@@@打开了由***拥有的箱子！
+msg-user-release-owned: 你不能解锁***拥有的箱子。
+msg-owner-remove: 你已从箱子上移除玩家名字！
+msg-user-remove-owned: 你不能从***拥有的箱子上移除玩家名字。
+msg-user-break-owned: 你不能破坏***拥有的箱子。
+msg-user-denied-door: 你没有权限使用此门
+msg-user-touch-fee: '###将会交给***以打开。'
+msg-user-touch-owned: 这个箱子已经属于***。
+msg-help-select: 已选择牌子，使用/lockette <牌子行数> <用户名>以修改。
+msg-admin-bypass: 已打开***拥有的门，请记得关上。
+msg-admin-snoop: (管理员)@@@正在围绕***拥有的箱子！
+msg-user-denied: 你没有权限使用此箱子。
+msg-error-zone: 此地已由***保护。
+msg-error-permission: 拒绝使用锁箱子的权限。
+msg-error-claim: 附近没有任何没被占用过的箱子来锁住！
+msg-error-claim-conflict: 和已被占用的门起冲突。
+msg-admin-claim-error: 玩家***不在线，请确定你输入的是正确的名字。
+msg-admin-claim: 你已为***占用箱子！
+msg-owner-claim: 你已占用箱子！
+msg-error-adduser-owned: 你不能为***拥有的箱子上添加用户。
+msg-error-adduser: 附近没有任何被占用的箱子来添加用户！
+msg-owner-adduser: 你已对箱子添加用户！
+msg-help-command1: '&C/lockette <line number> <text> - 修改用来锁住箱子的牌子。对着牌子使用右键来修改。'
+msg-help-command2: '&C/lockette fix - 修复在错误位置的自动门。看着门以修复。'
+msg-help-command3: '&C/lockette reload - 重新加载配置文件。只限管理员。'
+msg-help-command4: '&C/lockette version - 显示Lockette的版本。'
+msg-admin-reload: 正在重新加载插件的配置文件。
+msg-error-fix: 没有找到任何一个被占用的门。
+msg-error-edit: 首先使用右键来选择箱子。
+msg-owner-edit: 牌子已成功修改。

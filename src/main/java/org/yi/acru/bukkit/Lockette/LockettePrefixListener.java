@@ -8,6 +8,7 @@
 package org.yi.acru.bukkit.Lockette;
 
 // Imports.
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -41,14 +42,13 @@ public class LockettePrefixListener implements Listener{
 	// Start of event section
 	
 	
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onSignChange(SignChangeEvent event){
-		//if(event.isCancelled()) return;
-		
 		Block		block = event.getBlock();
 		Player		player = event.getPlayer();
-		boolean		typeWallSign = (block.getTypeId() == Material.WALL_SIGN.getId());
-		boolean		typeSignPost = (block.getTypeId() == Material.SIGN_POST.getId());
+		int         blockType = block.getTypeId();
+		boolean		typeWallSign = (blockType == Material.WALL_SIGN.getId());
+		boolean		typeSignPost = (blockType == Material.SIGN_POST.getId());
 		
 		
 		// Check to see if it is a sign change packet for an existing protected sign.
@@ -57,13 +57,15 @@ public class LockettePrefixListener implements Listener{
 		
 		if(typeWallSign){
 			Sign		sign = (Sign) block.getState();
-			String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "");
+			String		text = ChatColor.stripColor(sign.getLine(0));
 			
-			if(text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate) ||
-					text.equalsIgnoreCase("[More Users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)){
+			if(text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate) || text.equalsIgnoreCase("[More Users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)){
 				// Okay, sign already exists and someone managed to send an event to replace.
 				// Cancel it!  Also, set event text to sign text, just in case.
 				// And check for this later in queue.
+				if (Lockette.DEBUG) {
+					Lockette.log.info("[Lockette] Sign already exists, resetting");
+				}
 				
 				event.setCancelled(true);
 				event.setLine(0, sign.getLine(0));
