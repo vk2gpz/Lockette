@@ -39,7 +39,7 @@ import org.yi.acru.bukkit.BlockUtil;
 import org.bukkit.metadata.*;
 
 
-public class Lockette extends PluginCore{
+public class Lockette extends PluginCore {
 	static boolean DEBUG = false;
 	
 	private static Lockette					plugin;
@@ -97,7 +97,7 @@ public class Lockette extends PluginCore{
 		else printBuild = (int) build;
 		
 		//if((printBuild >= 45) && (printBuild <= 49)) log.info("[" + getDescription().getName() + "] Ignore the warning about using the stupidly long constructor!");
-		
+		/*
 		if(build == 0){
 			log.warning("[" + getDescription().getName() + "] Craftbukkit build unrecognized, please be sure you have build [" + recBuild + "] or greater.");
 		}
@@ -118,8 +118,19 @@ public class Lockette extends PluginCore{
 		else{
 			log.info("[" + getDescription().getName() + "] Detected craftbukkit build [" + printBuild + "] ok.");
 		}
+		*/
+
+		String bukkitVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
+		float bukkitver = Float.parseFloat(bukkitVersion.substring(1, 4).replace("_", "."));
+		float bukkitminver = 1.8F;
 		
-		
+		if (bukkitver < bukkitminver) {
+			log.severe("[" + getDescription().getName() + "] Detected Bukkit build [" + bukkitVersion + "], but requires version [" + bukkitminver + "] or greater!");
+			log.severe("[" + getDescription().getName() + "] Aborting enable!");
+			return;
+		} else {
+			log.info("[" + getDescription().getName() + "] Detected Bukkit version [" + bukkitVersion + "] ok.");
+		}
 		
 		// Load properties and strings.
 		
