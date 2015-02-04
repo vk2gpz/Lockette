@@ -332,11 +332,10 @@ public class LockettePlayerListener implements Listener{
 		
 		boolean		wooden = BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListWoodenDoors);
 		boolean		trap = false;
-		
+
 		if(Lockette.protectTrapDoors) if(BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListTrapDoors)) {
 				trap = true;
 			}
-		
 		
 		// Someone touched an owned door, lets see if they are allowed.
 		

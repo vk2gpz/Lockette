@@ -903,7 +903,7 @@ public class Lockette extends PluginCore {
 			return(findBlockOwnerBase(block, null, false, false, false, false, false));
 		}
 		if(Lockette.protectTrapDoors) if(BlockUtil.isInList(type, BlockUtil.materialListTrapDoors)){
-			return(findBlockOwnerBase(block, null, false, false, false, false, false));
+				return(findBlockOwnerBase(block, null, false, false, false, false, false));
 		}
 		if(Lockette.protectDoors) if(BlockUtil.isInList(type, BlockUtil.materialListDoors)){
 			return(findBlockOwnerBase(block, null, false, true, true, false, false));
@@ -989,8 +989,8 @@ public class Lockette extends PluginCore {
 		}
 		if(Lockette.protectTrapDoors) if(BlockUtil.isInList(type, BlockUtil.materialListTrapDoors)) {
 			// Need to check block it is attached to as well as other attached trap doors.
-			return(findBlockOwnerBase(block, ignore, false, false, false, false, false));
-			//return(findBlockOwner(getTrapDoorAttachedBlock(block), ignoreBlock, false));
+				//return(findBlockOwnerBase(block, ignore, false, false, false, false, false));				
+				return(findBlockOwner(getTrapDoorAttachedBlock(block), ignoreBlock, false));
 		}
 		if(Lockette.protectDoors) if(BlockUtil.isInList(type, BlockUtil.materialListDoors)) {
 			return(findBlockOwnerBase(block, ignore, true, true, true, true, iterateFurther));
