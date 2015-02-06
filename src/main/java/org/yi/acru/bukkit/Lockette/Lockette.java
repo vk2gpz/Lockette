@@ -38,6 +38,12 @@ import org.yi.acru.bukkit.BlockUtil;
 
 import org.bukkit.metadata.*;
 
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
 
 public class Lockette extends PluginCore {
 	static boolean DEBUG = false;
@@ -1726,107 +1732,126 @@ public class Lockette extends PluginCore {
 		
 	static private boolean matchUserUUID(Sign sign, int index, OfflinePlayer player, boolean update) {
 		try {
-		String line = sign.getLine(index);
-		String checkline = ChatColor.stripColor(line);
-		
-		if((checkline.indexOf("[") == 0 && checkline.indexOf("]") > 1) ||
-		   line.isEmpty()) {
-			return false;
-		}
-
-		// no uuid support? then just compare name against typed
-		if (!uuidSupport)  {	// 
-			//return checkline.split(":")[0].trim().equals(player.getName());
-			String pname = player.getName();
-			String against = checkline.split(":")[0].trim();
-			return oldFormatCheck(against, pname);
-		}
-
-		UUID uuid = null;
-		String name = getPlayerName(line);
-		if(isHackFormat(line)) {
-			//if it's hacked uuid line, convert to metadata
-			// if hacked UUID line, get the UUID
-			try {
-				uuid = getPlayerUUID(line);
-			} catch (IllegalArgumentException e) {
-				log.info("[" + plugin.getDescription().getName() + "] Invalid Player UUID!");
+			String line = sign.getLine(index);
+			String checkline = ChatColor.stripColor(line);
+			
+			if((checkline.indexOf("[") == 0 && checkline.indexOf("]") > 1) ||
+			   line.isEmpty()) {
 				return false;
 			}
-			if (uuid != null && update) {
-				OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+			
+			// no uuid support? then just compare name against typed
+			if (!uuidSupport)  {	// 
 				if (Lockette.DEBUG) {
-					Lockette.log.info("[Lockette] updating the old hacked format for " + p);
+					Lockette.log.info("[Lockette] NO UUID support, doing old name checking.");
 				}
-				setLine(sign, index, name, p);
-			}
-			// update sign for later uuid check!
-			sign.update();
-		}
-		
-		// not old hack UUID format and just player name?
-		// then convert the existing name to uuid then compare uuid
-		if (!sign.hasMetadata(META_KEY) || getUUIDFromMeta(sign, index) == null) {
-			if (Lockette.DEBUG) {
-				log.info("[Lockette] Checking for original format for " +  checkline);
-			}
-			OfflinePlayer oplayer = Bukkit.getOfflinePlayer(checkline);			
-			if (oplayer != null && oplayer.hasPlayedBefore()) {
-				if (Lockette.DEBUG) {
-					log.info("[Lockette] converting original format for " + oplayer + " name = " + checkline);
-				}
-				setLine(sign, index, line, oplayer);
-			} else {
-				// partial check with long name.
+				//return checkline.split(":")[0].trim().equals(player.getName());
 				String pname = player.getName();
 				String against = checkline.split(":")[0].trim();
-				if (oldFormatCheck(against, pname)) {
+				return oldFormatCheck(against, pname);
+			}
+			
+			UUID uuid = null;
+			String name = getPlayerName(line);
+			if (Lockette.DEBUG) {
+				Lockette.log.info("[Lockette] Name on the sign is : " + name);
+			}
+			
+			if(isHackFormat(line)) {
+				//if it's hacked uuid line, convert to metadata
+				// if hacked UUID line, get the UUID
+				try {
+					uuid = getPlayerUUID(line);
+				} catch (IllegalArgumentException e) {
+					log.info("[" + plugin.getDescription().getName() + "] Invalid Player UUID!");
+					return false;
+				}
+				if (uuid != null && update) {
+					OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
 					if (Lockette.DEBUG) {
-						Lockette.log.info("[Lockette] Partial match! Converting original format for " + player.getName() + " name = " + checkline);
+						Lockette.log.info("[Lockette] updating the old hacked format for " + p);
 					}
-					setLine(sign, index, player.getName(), player);
+					setLine(sign, index, name, p);
 				}
-				// if even partial matching is not found, leave it as is.
-				/*
-				else {
-					Lockette.log.log(Level.INFO, "[Lockette] Can't convert {0} !", line);
-					setLine(sign, index, line);
-					if (index == 1){
-						sign.setLine(0, "[?]");
-					}
-				}
-				*/
+				// update sign for later uuid check!
+				sign.update();
 			}
-			// update sign for later uuid check!
-			sign.update();			
-		}
-		
-		uuid = getUUIDFromMeta(sign, index);
-		
-		if (Lockette.DEBUG) {
-			log.info("[Lockette] uuid on the sign = " + uuid);
-			log.info("[Lockette] player's uuid    = " + player.getUniqueId());
-		}
-		
-		if(uuid != null) {
-			if (uuid.equals(player.getUniqueId())){
-				//Check if the Player name has changen and update it
-				if(!ChatColor.stripColor(ChatColor.stripColor(name)).equals(player.getName())){
-					sign.setLine(index, player.getName());
-					sign.update();
-				}
-				return true;
-			}
-
-			// this to remove falsely generated uuid.
-			OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuid);
-			if (!oplayer.hasPlayedBefore()) {
+			
+			// not old hack UUID format and just player name?
+			// then convert the existing name to uuid then compare uuid
+			if (!sign.hasMetadata(META_KEY) || getUUIDFromMeta(sign, index) == null) {
 				if (Lockette.DEBUG) {
-					log.info("[Lockette] removing bad UUID");
+					log.info("[Lockette] Checking for original format for " +  checkline);
 				}
-				removeUUIDMetadata(sign);
+				OfflinePlayer oplayer = Bukkit.getOfflinePlayer(checkline);			
+				if (oplayer != null && oplayer.hasPlayedBefore()) {
+					if (Lockette.DEBUG) {
+						log.info("[Lockette] converting original format for " + oplayer + " name = " + checkline);
+					}
+					setLine(sign, index, line, oplayer);
+				} else {
+					// partial check with long name.
+					String pname = player.getName();
+					String against = checkline.split(":")[0].trim();
+					if (oldFormatCheck(against, pname)) {
+						if (Lockette.DEBUG) {
+							Lockette.log.info("[Lockette] Partial match! Converting original format for " + player.getName() + " name = " + checkline);
+						}
+						setLine(sign, index, player.getName(), player);
+					}
+					// if even partial matching is not found, leave it as is.
+					/*
+					  else {
+					  Lockette.log.log(Level.INFO, "[Lockette] Can't convert {0} !", line);
+					  setLine(sign, index, line);
+					  if (index == 1){
+					  sign.setLine(0, "[?]");
+					  }
+					  }
+					*/
+				}
+				// update sign for later uuid check!
+				sign.update();			
 			}
-		}
+			
+			uuid = getUUIDFromMeta(sign, index);
+			
+			if (Lockette.DEBUG) {
+				log.info("[Lockette] uuid on the sign = " + uuid);
+				log.info("[Lockette] player's uuid    = " + player.getUniqueId());
+			}
+			
+			if(uuid != null) {
+				if (uuid.equals(player.getUniqueId())){
+					//Check if the Player name has changen and update it
+					if(!ChatColor.stripColor(ChatColor.stripColor(name)).equals(player.getName())){
+						sign.setLine(index, player.getName());
+						sign.update();
+					}
+					return true;
+				}
+				
+				// this to remove falsely generated uuid.
+				OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuid);
+				if (!oplayer.hasPlayedBefore()) {
+					if (Lockette.DEBUG) {
+						log.info("[Lockette] removing bad UUID");
+					}
+					removeUUIDMetadata(sign);
+				}
+			} else { // check the name history
+				List<String> names = getPreviousNames(player.getUniqueId());
+				for (String n : names) {
+					if (n.equalsIgnoreCase(name)) { // match!
+						if (Lockette.DEBUG) {
+							log.info("[Lockette] Found the match in the name history!");
+						}
+						
+						setLine(sign, index, player.getName(), player);
+						return true;
+					}
+				}
+			}
 		} catch (Exception e) {
 			log.info("[Lockette] Something bad happened returning match = false");
 			e.printStackTrace();
@@ -1907,6 +1932,30 @@ public class Lockette extends PluginCore {
 		
 		// User doesn't have permission.
 		return false;
+	}
+
+	
+	private static String NAME_HISTORY_URL = "https://api.mojang.com/user/profiles/";
+	private static final JSONParser jsonParser = new JSONParser();
+	private static List<String> getPreviousNames(UUID uuid) {
+		String name = null;
+		List<String> list = new ArrayList<String>();
+
+		try {
+			if (name == null) {
+				HttpURLConnection connection = (HttpURLConnection) new URL(NAME_HISTORY_URL + uuid.toString().replace("-", "") + "/names").openConnection();
+				JSONArray array = (JSONArray) jsonParser.parse(new InputStreamReader(connection.getInputStream()));
+				
+				Iterator<JSONObject> iterator = array.iterator();
+				while (iterator.hasNext()) {
+					JSONObject obj = (JSONObject) iterator.next();
+					list.add((String)obj.get("name"));
+				}
+			}
+		} catch (Exception ioe) {
+			log.info("[Lockette] Failed to get Name history!");
+		}
+		return list;
 	}
 }
 
