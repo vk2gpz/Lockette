@@ -978,6 +978,9 @@ public class Lockette extends PluginCore {
 	// Version for finding conflicts, when creating a new sign.
 	// Ignore the sign being made, in case another plugin has set the text of the sign prematurely.
 	protected static Block findBlockOwner(Block block, Block ignoreBlock, boolean iterateFurther){
+		if (block == null)
+			return null;
+		
 		int			type = block.getTypeId();
 		Location	ignore;
 		
