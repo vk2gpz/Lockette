@@ -4,24 +4,19 @@
 	<groupId>org.yi.acru.bukkit.Lockette</groupId>
 	<artifactId>Lockette</artifactId>
 	<packaging>jar</packaging>
-	<version>1.8.13</version>
+	<version>1.9.0</version>
 	<name>Lockette</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>LATEST</version>
-	      <scope>system</scope>
-		  <systemPath>${basedir}/lib/spigot-1.8-R0.1-SNAPSHOT.jar</systemPath>
-<!--		  
-			<type>jar</type>
-			<scope>compile</scope>
--->			
-		</dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.8-R0.1-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -31,7 +26,7 @@
 		<dependency>
 			<groupId>org.yi.acru.bukkit</groupId>
 			<artifactId>PluginCore</artifactId>
-			<version>1.4.0</version>
+			<version>1.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -64,10 +59,12 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <artifactSet>
-                                <excludes>
-                                    <exclude>org.bukkit</exclude>
-                                </excludes>
+                                <includes>
+                                    <include>org.yi.acru.bukkit:PluginCore</include>
+                                    <include>com.googlecode.json-simple:json-simple</include>
+                                </includes>
                             </artifactSet>
                         </configuration>
                     </execution>
@@ -94,9 +91,9 @@
 		</resources>
 	</build>
 	<repositories>
-		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
-		</repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public</url>
+        </repository>
 	</repositories>
 </project>

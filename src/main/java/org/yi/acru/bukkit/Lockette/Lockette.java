@@ -814,9 +814,7 @@ public class Lockette extends PluginCore {
 	
 	
 	protected boolean usingExternalPermissions(){
-		if(!usePermissions) return(false);
-		return(super.usingExternalPermissions());
-		//return(usePermissions);
+		return usePermissions;
 	}
 	
 	
