@@ -8,6 +8,7 @@
 package org.yi.acru.bukkit.Lockette;
 
 // Imports.
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -23,11 +24,9 @@ import org.bukkit.event.Event.Result;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
 import org.yi.acru.bukkit.BlockUtil;
 
 
@@ -528,7 +527,7 @@ public class LockettePlayerListener implements Listener{
 	
 	// Returns true if a door wasn't changed.
 	private static boolean fixDoor(Player player){
-		Block		block = player.getTargetBlock(null, 10);
+		Block		block = player.getTargetBlock(new HashSet<Byte>(), 10);
 		int			type = block.getTypeId();
 		boolean		doCheck = false;
 		
