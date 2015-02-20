@@ -10,6 +10,8 @@ package org.yi.acru.bukkit.Lockette;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Arrays;
+
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -60,20 +62,48 @@ public class LocketteBlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMoveItemEvent(InventoryMoveItemEvent event) {
-        //  THIS IS RETARDED... but I sure dont see any other method to aquire a block to use for isProtected()
-        //  Talk about a cluster fuck of uselessness IMHO...
         Boolean protectedSource = false;
         Boolean protectedDest = false;
-        //  Why should casting be so hard......
-        if ((event.getSource().getHolder()) instanceof Chest) {
-            protectedSource = (Lockette.isProtected(((Chest) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Chest output is protected :" + protectedSource);
+        if ((event.getSource().getHolder()) instanceof BlockState) {
+            protectedSource = (Lockette.isProtected(((BlockState) event.getSource().getHolder()).getBlock()));
+            Lockette.log.info("Blockstate output is protected :" + protectedSource);
         }
-        if ((event.getDestination().getHolder()) instanceof Chest) {
-            protectedDest = (Lockette.isProtected(((Chest) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Chest intake is protected :" + protectedDest);
+        if ((event.getDestination().getHolder()) instanceof BlockState) {
+            protectedDest = (Lockette.isProtected(((BlockState) event.getDestination().getHolder()).getBlock()));
+            Lockette.log.info("Blockstate input is protected :" + protectedDest);
         }
-        if ((event.getSource().getHolder()) instanceof Hopper) {
+        if (protectedSource != protectedDest) {
+            Lockette.log.info("Canceling because either the source or destination is protected");
+            event.setCancelled(true);
+        }
+        //  Handle DoubleChests here now.. not completed but getting close...
+        /* if ((event.getSource().getHolder()) instanceof DoubleChest) {
+            Boolean protectedDoubleChest = false;
+            if (Lockette.isProtected((((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder()))) {
+                BlockState blockStateGetBlock = (((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder()).getBlock()));
+            }
+        }*/
+
+        //  And now check for minecarts last because they cant be protected.
+        if (event.getSource().getHolder() instanceof HopperMinecart & protectedDest) {
+            Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            event.setCancelled(true);
+        }
+        if (event.getDestination().getHolder() instanceof HopperMinecart & protectedSource) {
+            Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            event.setCancelled(true);
+        }
+        if (event.getSource().getHolder() instanceof StorageMinecart & protectedDest) {
+            Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            event.setCancelled(true);
+        }
+        if (event.getDestination().getHolder() instanceof StorageMinecart & protectedSource) {
+            Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            event.setCancelled(true);
+        }
+        
+        
+        /*if ((event.getSource().getHolder()) instanceof Hopper) {
             protectedSource = (Lockette.isProtected(((Hopper) event.getSource().getHolder()).getBlock()));
             Lockette.log.info("Hopper output is protected :" + protectedSource);
         }
@@ -112,29 +142,7 @@ public class LocketteBlockListener implements Listener {
         if ((event.getDestination().getHolder()) instanceof Dropper) {
             protectedDest = (Lockette.isProtected(((Dropper) event.getDestination().getHolder()).getBlock()));
             Lockette.log.info("Droppper intake is protected :" + protectedDest);
-        }
-        // Finally....
-        //  Cancel the Event here... XOR logic used.  No need to cancel if both are protected or neither are....
-
-        if (protectedSource ^ protectedDest) {
-            event.setCancelled(true);
-        }
-
-        //  And now check for minecarts last because they cant be protected.
-        if (event.getSource().getHolder() instanceof HopperMinecart & protectedDest) {
-            event.setCancelled(true);
-        }
-        if (event.getDestination().getHolder() instanceof HopperMinecart & protectedSource) {
-            event.setCancelled(true);
-        }
-        if (event.getSource().getHolder() instanceof StorageMinecart & protectedDest) {
-            event.setCancelled(true);
-        }
-        if (event.getDestination().getHolder() instanceof StorageMinecart & protectedSource) {
-            event.setCancelled(true);
-        }
-        //  I know this is ugly but so far this is the only method I can even remotely come up with to handle permissions
-        //
+        }*/
     }
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
