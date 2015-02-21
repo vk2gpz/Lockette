@@ -68,18 +68,18 @@ public class LocketteBlockListener implements Listener {
         Boolean protectedDoubleChestRight = false;
         if ((event.getSource().getHolder()) instanceof BlockState) {
             protectedSource = (Lockette.isProtected(((BlockState) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Blockstate output is protected :" + protectedSource);
+            //Lockette.log.info("Blockstate output is protected :" + protectedSource);
         }
         if ((event.getDestination().getHolder()) instanceof BlockState) {
             protectedDest = (Lockette.isProtected(((BlockState) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Blockstate input is protected :" + protectedDest);
+            //Lockette.log.info("Blockstate input is protected :" + protectedDest);
         }
         if (protectedSource != protectedDest) {
-            Lockette.log.info("Canceling because either the source or destination is protected");
+            //Lockette.log.info("Canceling because either the source or destination is protected");
             event.setCancelled(true);
         }
-        //  Handle DoubleChests here now.. not completed but getting close...
-        if ((event.getSource().getHolder()) instanceof DoubleChest) {
+        //  Handle DoubleChests here now.. not completed but getting close... BROKEN SO FAR...
+        /*if ((event.getSource().getHolder()) instanceof DoubleChest) {
             if (Lockette.isProtected(((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock())) {
                 // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
                 Lockette.log.info("Okay we are checking double chests now... left side says, " + protectedDoubleChestLeft);
@@ -88,67 +88,24 @@ public class LocketteBlockListener implements Listener {
                 // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
                 Lockette.log.info("Okay we are checking double chests now... right side says, " + protectedDoubleChestRight);
             }
-        }
-
+        }*/
         //  And now check for minecarts last because they cant be protected.
         if (event.getSource().getHolder() instanceof HopperMinecart & protectedDest) {
-            Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            //Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
             event.setCancelled(true);
         }
         if (event.getDestination().getHolder() instanceof HopperMinecart & protectedSource) {
-            Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            //Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
             event.setCancelled(true);
         }
         if (event.getSource().getHolder() instanceof StorageMinecart & protectedDest) {
-            Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            //Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
             event.setCancelled(true);
         }
         if (event.getDestination().getHolder() instanceof StorageMinecart & protectedSource) {
-            Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            //Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
             event.setCancelled(true);
         }
-        
-        
-        /*if ((event.getSource().getHolder()) instanceof Hopper) {
-            protectedSource = (Lockette.isProtected(((Hopper) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Hopper output is protected :" + protectedSource);
-        }
-        if ((event.getDestination().getHolder()) instanceof Hopper) {
-            protectedDest = (Lockette.isProtected(((Hopper) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Hopper intake is protected :" + protectedDest);
-        }
-        if ((event.getSource().getHolder()) instanceof Furnace) {
-            protectedSource = (Lockette.isProtected(((Furnace) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Furnace output is protected :" + protectedSource);
-        }
-        if ((event.getDestination().getHolder()) instanceof Furnace) {
-            protectedDest = (Lockette.isProtected(((Furnace) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Furnace intake is protected :" + protectedDest);
-        }
-        if ((event.getSource().getHolder()) instanceof BrewingStand) {
-            protectedSource = (Lockette.isProtected(((BrewingStand) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("BrewingStand outputis protected :" + protectedSource);
-        }
-        if ((event.getDestination().getHolder()) instanceof BrewingStand) {
-            protectedDest = (Lockette.isProtected(((BrewingStand) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("BrewingStand intake is protected :" + protectedDest);
-        }
-        if ((event.getSource().getHolder()) instanceof Dispenser) {
-            protectedSource = (Lockette.isProtected(((Dropper) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Dispenser output is protected :" + protectedSource);
-        }
-        if ((event.getDestination().getHolder()) instanceof Dispenser) {
-            protectedDest = (Lockette.isProtected(((Dropper) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Dispenser intake is protected :" + protectedDest);
-        }
-        if ((event.getSource().getHolder()) instanceof Dropper) {
-            protectedSource = (Lockette.isProtected(((Dropper) event.getSource().getHolder()).getBlock()));
-            Lockette.log.info("Dropper output is protected :" + protectedSource);
-        }
-        if ((event.getDestination().getHolder()) instanceof Dropper) {
-            protectedDest = (Lockette.isProtected(((Dropper) event.getDestination().getHolder()).getBlock()));
-            Lockette.log.info("Droppper intake is protected :" + protectedDest);
-        }*/
     }
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
