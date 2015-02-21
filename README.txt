@@ -1,6 +1,7 @@
 
 Lockette for Bukkit, written by Acru Jovian, updated by ElgarL and
 now mainteined by vk2gpz.
+Unofficially maintained by Sycholic and Samistine of Spigot
 Distributed under the The Non-Profit Open Software License version 3.0 (NPOSL-3.0)
 http://www.opensource.org/licenses/NOSL3.0
 
