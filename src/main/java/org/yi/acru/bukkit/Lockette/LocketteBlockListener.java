@@ -64,6 +64,8 @@ public class LocketteBlockListener implements Listener {
     public void onMoveItemEvent(InventoryMoveItemEvent event) {
         Boolean protectedSource = false;
         Boolean protectedDest = false;
+        Boolean protectedDoubleChestLeft = false;
+        Boolean protectedDoubleChestRight = false;
         if ((event.getSource().getHolder()) instanceof BlockState) {
             protectedSource = (Lockette.isProtected(((BlockState) event.getSource().getHolder()).getBlock()));
             Lockette.log.info("Blockstate output is protected :" + protectedSource);
@@ -77,12 +79,16 @@ public class LocketteBlockListener implements Listener {
             event.setCancelled(true);
         }
         //  Handle DoubleChests here now.. not completed but getting close...
-        /* if ((event.getSource().getHolder()) instanceof DoubleChest) {
-            Boolean protectedDoubleChest = false;
-            if (Lockette.isProtected((((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder()))) {
-                BlockState blockStateGetBlock = (((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder()).getBlock()));
+        if ((event.getSource().getHolder()) instanceof DoubleChest) {
+            if (Lockette.isProtected(((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock())) {
+                // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
+                Lockette.log.info("Okay we are checking double chests now... left side says, " + protectedDoubleChestLeft);
             }
-        }*/
+            if (Lockette.isProtected(((BlockState)(((DoubleChest) event.getSource()).getRightSide().getInventory().getHolder())).getBlock())) {
+                // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
+                Lockette.log.info("Okay we are checking double chests now... right side says, " + protectedDoubleChestRight);
+            }
+        }
 
         //  And now check for minecarts last because they cant be protected.
         if (event.getSource().getHolder() instanceof HopperMinecart & protectedDest) {
