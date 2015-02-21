@@ -11,16 +11,11 @@
 		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<!--Bukkit API -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>LATEST</version>
-	      <scope>system</scope>
-		  <systemPath>${basedir}/lib/spigot-1.8-R0.1-SNAPSHOT.jar</systemPath>
-<!--		  
-			<type>jar</type>
-			<scope>compile</scope>
--->			
+			<version>1.8-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -95,8 +90,8 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 </project>
