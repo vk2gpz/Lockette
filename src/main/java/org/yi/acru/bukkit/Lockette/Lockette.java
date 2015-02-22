@@ -33,9 +33,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import org.yi.acru.bukkit.PluginCore;
-import org.yi.acru.bukkit.BlockUtil;
-
 import org.bukkit.metadata.*;
 
 import java.io.*;
@@ -45,7 +42,7 @@ import org.json.simple.*;
 import org.json.simple.parser.*;
 
 
-public class Lockette extends PluginCore {
+public class Lockette{
 	static boolean DEBUG = false;
 	
 	private static Lockette					plugin;
