@@ -8,14 +8,21 @@ package org.yi.acru.bukkit.Lockette;
 
 // Imports.
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Arrays;
+
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
+//import org.bukkit.block.Block;
+//import org.bukkit.block.BlockFace;
+//import org.bukkit.block.Chest;
+//import org.bukkit.block.Hopper;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.minecart.HopperMinecart;
+import org.bukkit.entity.minecart.StorageMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -53,14 +60,54 @@ public class LocketteBlockListener implements Listener {
 	//**********************************************************
 	// Start of event section
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onHopperMinecart(InventoryMoveItemEvent event){
-		if (event.getSource().getHolder() instanceof Chest){
-			if (Lockette.isProtected(((Chest)event.getSource().getHolder()).getBlock()));
-			event.setCancelled(true);
-		}
-	}
-	
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onMoveItemEvent(InventoryMoveItemEvent event) {
+        Boolean protectedSource = false;
+        Boolean protectedDest = false;
+        Boolean protectedDoubleChestLeft = false;
+        Boolean protectedDoubleChestRight = false;
+        if ((event.getSource().getHolder()) instanceof BlockState) {
+            protectedSource = (Lockette.isProtected(((BlockState) event.getSource().getHolder()).getBlock()));
+            //Lockette.log.info("Blockstate output is protected :" + protectedSource);
+        }
+        if ((event.getDestination().getHolder()) instanceof BlockState) {
+            protectedDest = (Lockette.isProtected(((BlockState) event.getDestination().getHolder()).getBlock()));
+            //Lockette.log.info("Blockstate input is protected :" + protectedDest);
+        }
+        if (protectedSource != protectedDest) {
+            //Lockette.log.info("Canceling because either the source or destination is protected");
+            event.setCancelled(true);
+        }
+        //  Handle DoubleChests here now.. not completed but getting close... BROKEN SO FAR...
+        /*if ((event.getSource().getHolder()) instanceof DoubleChest) {
+            if (Lockette.isProtected(((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock())) {
+                // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
+                Lockette.log.info("Okay we are checking double chests now... left side says, " + protectedDoubleChestLeft);
+            }
+            if (Lockette.isProtected(((BlockState)(((DoubleChest) event.getSource()).getRightSide().getInventory().getHolder())).getBlock())) {
+                // protectedDoubleChestLeft = ((BlockState)(((DoubleChest) event.getSource()).getLeftSide().getInventory().getHolder())).getBlock();
+                Lockette.log.info("Okay we are checking double chests now... right side says, " + protectedDoubleChestRight);
+            }
+        }*/
+        //  And now check for minecarts last because they cant be protected.
+        if (event.getSource().getHolder() instanceof HopperMinecart & protectedDest) {
+            //Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            event.setCancelled(true);
+        }
+        if (event.getDestination().getHolder() instanceof HopperMinecart & protectedSource) {
+            //Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            event.setCancelled(true);
+        }
+        if (event.getSource().getHolder() instanceof StorageMinecart & protectedDest) {
+            //Lockette.log.info("Canceling Minecart + protectedDest:" + protectedDest);
+            event.setCancelled(true);
+        }
+        if (event.getDestination().getHolder() instanceof StorageMinecart & protectedSource) {
+            //Lockette.log.info("Canceling Minecart + protectedSource:" + protectedSource);
+            event.setCancelled(true);
+        }
+    }
+
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
 
