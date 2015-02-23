@@ -29,8 +29,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.SignChangeEvent;
 
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-
 import org.yi.acru.bukkit.PluginCore;
 import org.yi.acru.bukkit.BlockUtil;
 
@@ -53,14 +51,6 @@ public class LocketteBlockListener implements Listener {
 	//**********************************************************
 	// Start of event section
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onHopperMinecart(InventoryMoveItemEvent event){
-		if (event.getSource().getHolder() instanceof Chest){
-			if (Lockette.isProtected(((Chest)event.getSource().getHolder()).getBlock()));
-			event.setCancelled(true);
-		}
-	}
-	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
 
