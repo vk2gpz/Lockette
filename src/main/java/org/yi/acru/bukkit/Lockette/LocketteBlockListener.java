@@ -556,6 +556,15 @@ public class LocketteBlockListener implements Listener {
 			event.setNewCurrent(event.getOldCurrent());
 		}
 	}
+
+	private boolean isEmptyChange(SignChangeEvent signe) {
+		for (int i = 0; i < 4; i++) {
+			String str = ChatColor.stripColor(signe.getLine(i));
+			if (!str.isEmpty())
+				return false;
+		}
+		return true;
+	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = false)
 	public void onSignChange(SignChangeEvent event) {
@@ -593,14 +602,9 @@ public class LocketteBlockListener implements Listener {
 		// But also need this along with stuff in PrefixListener
 		
 		if (typeWallSign) {
-			Sign sign = (Sign) block.getState();
-			String text = ChatColor.stripColor(sign.getLine(0));
-
-			if (text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate) || text.equalsIgnoreCase("[More Users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)) {
-				if (event.isCancelled())
-					return;
-				//event.setCancelled(true);
-				//return;
+			if (isEmptyChange(event)) {
+				event.setCancelled(true);
+				return;
 			}
 		} else if (typeSignPost) {
 
@@ -639,7 +643,7 @@ public class LocketteBlockListener implements Listener {
 
 		// Check for a new [Private] or [More Users] sign.
 		String text = ChatColor.stripColor(event.getLine(0));
-		
+
 		if (text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate)) {
 			//Player		player = event.getPlayer();
 			//Block		block = event.getBlock();

@@ -154,7 +154,7 @@ public class Lockette extends PluginCore {
 			blockListener.registerEvents();
 			entityListener.registerEvents();
 			playerListener.registerEvents();
-			prefixListener.registerEvents();
+			//prefixListener.registerEvents();
 			worldListener.registerEvents();
 			inventoryListener.registerEvents();			
 			registered = true;

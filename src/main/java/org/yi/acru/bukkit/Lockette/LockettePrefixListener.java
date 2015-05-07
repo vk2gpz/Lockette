@@ -50,7 +50,6 @@ public class LockettePrefixListener implements Listener{
 		boolean		typeWallSign = (blockType == Material.WALL_SIGN.getId());
 		boolean		typeSignPost = (blockType == Material.SIGN_POST.getId());
 		
-		
 		// Check to see if it is a sign change packet for an existing protected sign.
 		// No longer needed in builds around 556+, but I am leaving this here for now.
 		// Needed again as of build 1093...  :<
