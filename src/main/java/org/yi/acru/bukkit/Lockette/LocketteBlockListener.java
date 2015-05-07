@@ -602,7 +602,10 @@ public class LocketteBlockListener implements Listener {
 		// But also need this along with stuff in PrefixListener
 		
 		if (typeWallSign) {
-			if (isEmptyChange(event)) {
+			Sign sign = (Sign) block.getState();
+			String text = ChatColor.stripColor(sign.getLine(0));
+			
+			if ((text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate)) && isEmptyChange(event)) {
 				event.setCancelled(true);
 				return;
 			}
