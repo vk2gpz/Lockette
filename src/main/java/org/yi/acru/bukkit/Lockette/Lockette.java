@@ -1908,11 +1908,11 @@ public class Lockette extends PluginCore {
 			if (matchUserUUID(sign, y, player, true)) {// Check if the name is there verbatum.
 				return true;
 			}
-			
 			// Check if name is in a group listed on the sign.
-			if (withGroups)
+			if (withGroups) {
 				if (plugin.inGroup(block.getWorld(), player.getName(), line))
 					return true;
+			}
 		}
 		
 		// Check for more users.
