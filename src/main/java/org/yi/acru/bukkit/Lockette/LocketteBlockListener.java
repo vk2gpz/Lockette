@@ -556,15 +556,6 @@ public class LocketteBlockListener implements Listener {
 			event.setNewCurrent(event.getOldCurrent());
 		}
 	}
-
-	private boolean isEmptyChange(SignChangeEvent signe) {
-		for (int i = 0; i < 4; i++) {
-			String str = ChatColor.stripColor(signe.getLine(i));
-			if (!str.isEmpty())
-				return false;
-		}
-		return true;
-	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = false)
 	public void onSignChange(SignChangeEvent event) {
@@ -1221,5 +1212,14 @@ public class LocketteBlockListener implements Listener {
 		}
 
 		return (true);
+	}
+
+	static boolean isEmptyChange(SignChangeEvent signe) {
+		for (int i = 0; i < 4; i++) {
+			String str = ChatColor.stripColor(signe.getLine(i));
+			if (!str.isEmpty())
+				return false;
+		}
+		return true;
 	}
 }

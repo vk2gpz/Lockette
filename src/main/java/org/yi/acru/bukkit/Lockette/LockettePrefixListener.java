@@ -58,7 +58,7 @@ public class LockettePrefixListener implements Listener{
 			Sign		sign = (Sign) block.getState();
 			String		text = ChatColor.stripColor(sign.getLine(0));
 			
-			if(text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate) || text.equalsIgnoreCase("[More Users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)){
+			if((text.equalsIgnoreCase("[Private]") || text.equalsIgnoreCase(Lockette.altPrivate) || text.equalsIgnoreCase("[More Users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)) && LocketteBlockListener.isEmptyChange(event)) {
 				// Okay, sign already exists and someone managed to send an event to replace.
 				// Cancel it!  Also, set event text to sign text, just in case.
 				// And check for this later in queue.
