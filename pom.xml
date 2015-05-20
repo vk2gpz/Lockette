@@ -4,7 +4,7 @@
 	<groupId>org.yi.acru.bukkit.Lockette</groupId>
 	<artifactId>Lockette</artifactId>
 	<packaging>jar</packaging>
-	<version>1.8.18</version>
+	<version>1.8.19</version>
 	<name>Lockette</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -12,15 +12,11 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>LATEST</version>
-	      <scope>system</scope>
-		  <systemPath>${basedir}/lib/spigot-1.8-R0.1-SNAPSHOT.jar</systemPath>
-<!--		  
+		  <groupId>org.bukkit</groupId>
+		  <artifactId>bukkit</artifactId>
+		  <version>LATEST</version>
 			<type>jar</type>
 			<scope>compile</scope>
--->			
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -94,9 +90,15 @@
 		</resources>
 	</build>
 	<repositories>
-		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
-		</repository>
+      <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+      </repository>
+      <!--
+          <repository>
+		  <id>bukkit-repo</id>
+		  <url>http://repo.bukkit.org/content/groups/public</url>
+	      </repository>
+      -->
 	</repositories>
 </project>

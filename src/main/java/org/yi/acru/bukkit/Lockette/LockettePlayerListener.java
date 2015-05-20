@@ -9,6 +9,7 @@ package org.yi.acru.bukkit.Lockette;
 
 // Imports.
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -528,7 +529,7 @@ public class LockettePlayerListener implements Listener{
 	
 	// Returns true if a door wasn't changed.
 	private static boolean fixDoor(Player player){
-		Block		block = player.getTargetBlock(null, 10);
+      Block		block = player.getTargetBlock((Set<Material>)null, 10);
 		int			type = block.getTypeId();
 		boolean		doCheck = false;
 		
