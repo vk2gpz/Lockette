@@ -50,6 +50,22 @@ public class LocketteEntityListener implements Listener{
 		//Block		block;
 		
 		// Check the block list for any protected blocks, and cancel the event if any are found.
+        if(Lockette.explosionProtectionAll){        
+          Iterator<Block> it = event.blockList().iterator();
+          while (it.hasNext()) {
+			Block block = it.next();
+			if(Lockette.isProtected(block)){
+              it.remove();
+              continue;
+			}
+            
+            if (BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListNonDoors)) {
+              it.remove();
+              continue;
+            }
+          }
+		}
+        /*
 		Iterator<Block> it = event.blockList().iterator();
 		while (it.hasNext()) {
 			Block block = it.next();
@@ -64,6 +80,7 @@ public class LocketteEntityListener implements Listener{
 				}
 			}
 		}
+        */
 		/*
 		for(x = 0; x < event.blockList().size(); ++x){
 			
