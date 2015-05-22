@@ -62,7 +62,14 @@
                         <configuration>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>org.bukkit</exclude>
+                                  <exclude>org.bukkit</exclude>
+                                  <exclude>commons-lang</exclude>
+                                  <exclude>com.google.guava</exclude>
+                                  <exclude>com.google.code.gson</exclude>
+                                  <exclude>org.avaje</exclude>
+                                  <exclude>javax.persistence</exclude>
+                                  <exclude>org.yaml</exclude>
+                                  <exclude>com.googlecode.json-simple</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
