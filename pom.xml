@@ -60,7 +60,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
+                          <artifactSet>
+                            <!--
                                 <excludes>
                                   <exclude>org.bukkit</exclude>
                                   <exclude>commons-lang</exclude>
@@ -70,7 +71,11 @@
                                   <exclude>javax.persistence</exclude>
                                   <exclude>org.yaml</exclude>
                                   <exclude>com.googlecode.json-simple</exclude>
-                                </excludes>
+                                  </excludes>
+                            -->
+                            <includes>
+                              <include>org.yi.acru.bukkit:PluginCore</include>
+                            </includes>
                             </artifactSet>
                         </configuration>
                     </execution>
