@@ -4,7 +4,7 @@
 	<groupId>org.yi.acru.bukkit.Lockette</groupId>
 	<artifactId>Lockette</artifactId>
 	<packaging>jar</packaging>
-	<version>1.8.19</version>
+	<version>1.8.22</version>
 	<name>Lockette</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -12,8 +12,8 @@
 	</properties>
 	<dependencies>
 		<dependency>
-		  <groupId>org.bukkit</groupId>
-		  <artifactId>bukkit</artifactId>
+		  <groupId>org.spigotmc</groupId>
+		  <artifactId>spigot-api</artifactId>
 		  <version>LATEST</version>
 			<type>jar</type>
 			<scope>compile</scope>
