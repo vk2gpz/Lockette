@@ -73,8 +73,44 @@ public class Lockette extends PluginCore {
 	
 	
   public void onLoad(){}
-	
-	
+
+  private static int majorVersion(String ver) {
+    try {
+      ver = ver.replaceAll("v", "");
+      ver = ver.substring(0, ver.indexOf("_R"));
+      String[] nums = ver.split("_");
+      return Integer.parseInt(nums[0]);
+    } catch (Exception ignore) {}
+    return -1;
+  }
+
+  private static int minorVersion(String ver) {
+    try {
+      ver = ver.replaceAll("v", "");
+      ver = ver.substring(0, ver.indexOf("_R"));
+      String[] nums = ver.split("_");
+      return Integer.parseInt(nums[1]);
+    } catch (Exception ignore) {}
+    return -1;
+  }
+
+  private static boolean leqVersion(String ver, int major, int minor) {
+    try {
+      int mj = majorVersion(ver);
+      if (mj > major) {
+        return true;
+      }
+      if (mj == major) {
+        int mi = minorVersion(ver);
+        if (mi >= minor) {
+          System.out.println("minor >");
+          return true;
+        }
+      }
+    } catch (Exception ignore) { }
+    return false;
+  }
+
   public void onEnable(){
     if(enabled) return;
 		
@@ -116,10 +152,10 @@ public class Lockette extends PluginCore {
     */
 
     String bukkitVersion = Bukkit.getServer().getClass().getName().split("\\.")[3];
-    float bukkitver = Float.parseFloat(bukkitVersion.substring(1, 4).replace("_", "."));
-    float bukkitminver = 1.10F;
-		
-    if (bukkitver < bukkitminver) {
+    float bukkitver = minorVersion(bukkitVersion);//Float.parseFloat(bukkitVersion.substring(1, 4).replace("_", "."));
+    float bukkitminver = 1.8F;
+
+    if (!leqVersion(bukkitVersion, 1, 8)) { //bukkitver < bukkitminver) {
       log.severe("[" + getDescription().getName() + "] Detected Bukkit build [" + bukkitVersion + "], but requires version [" + bukkitminver + "] or greater!");
       log.severe("[" + getDescription().getName() + "] Aborting enable!");
       return;
