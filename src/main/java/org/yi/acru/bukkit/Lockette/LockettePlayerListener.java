@@ -8,8 +8,6 @@
 package org.yi.acru.bukkit.Lockette;
 
 // Imports.
-import java.util.List;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,19 +15,20 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.Event.Result;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginManager;
-
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 import org.yi.acru.bukkit.BlockUtil;
+
+import java.util.List;
+import java.util.Set;
 
 
 public class LockettePlayerListener implements Listener{
@@ -196,8 +195,7 @@ public class LockettePlayerListener implements Listener{
 		BlockFace	face = event.getBlockFace();
 		ItemStack	item;
 		
-		
-		if(action == Action.RIGHT_CLICK_BLOCK){
+		if (action == Action.RIGHT_CLICK_BLOCK){
 			
 			// Check we are allowed to used this trapdoor
 			if ((Lockette.protectTrapDoors) && (BlockUtil.isInList(type, BlockUtil.materialListTrapDoors))) {
@@ -402,14 +400,20 @@ public class LockettePlayerListener implements Listener{
 	}
 	
 	
-	private static void interactSign(Block block, Player player){
-		Sign		sign = (Sign) block.getState();
-		String		text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
+	private static void interactSign(Block block, Player player) {
+		Sign sign = (Sign) block.getState();
+		String text = ChatColor.stripColor(sign.getLine(0)).toLowerCase();
 		
 		// Check if it is our sign that was clicked.
-		
-		if(text.equals("[private]") || text.equalsIgnoreCase(Lockette.altPrivate)){}
-		else if(text.equals("[more users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)){
+
+		if(text.equals("[private]") || text.equalsIgnoreCase(Lockette.altPrivate)) {
+			if (Lockette.DEBUG) {
+				Lockette.log.info("[Lockette] private sign!");
+			}
+		} else if(text.equals("[more users]") || text.equalsIgnoreCase(Lockette.altMoreUsers)) {
+			if (Lockette.DEBUG) {
+				Lockette.log.info("[Lockette] more users sign!");
+			}
 			Block checkBlock = Lockette.getSignAttachedBlock(block);
 			if(checkBlock == null) return;
 			
@@ -419,10 +423,13 @@ public class LockettePlayerListener implements Listener{
 			sign = (Sign) signBlock.getState();
 		}
 		else return;
-		
+
 		// Check owner.
 		//if(sign.getLine(1).replaceAll("(?i)\u00A7[0-F]", "").equals(player.getName()) || Lockette.debugMode){			
-		if(Lockette.isOwner(sign, player) || Lockette.debugMode){
+		if(Lockette.isOwner(sign, player) || Lockette.debugMode) {
+			if (Lockette.DEBUG) {
+				Lockette.log.info("[Lockette] you're the owner!!");
+			}
 			if(!block.equals(plugin.playerList.get(player.getName()))){
 				// Associate the user with the owned sign.
 				plugin.playerList.put(player.getName(), block);
@@ -431,7 +438,7 @@ public class LockettePlayerListener implements Listener{
 		}
 		else{/*
 			int fee = getSignOption(signBlock, "fee", Lockette.altFee, 0);
-			
+
 			if(fee != 0){
 				if(!signBlock.equals(plugin.playerList.get(player.getName()))){
 					// First half of fee approval.
@@ -440,7 +447,11 @@ public class LockettePlayerListener implements Listener{
 				}
 			}
 			else{*/
-				if(!block.equals(plugin.playerList.get(player.getName()))){
+			if (Lockette.DEBUG) {
+				Lockette.log.info("[Lockette] notify!!");
+			}
+
+			if(!block.equals(plugin.playerList.get(player.getName()))){
 					// Only print this message once as well.
 					plugin.playerList.put(player.getName(), block);
 					plugin.localizedMessage(player, null, "msg-user-touch-owned", sign.getLine(1));

@@ -604,7 +604,7 @@ public class LocketteBlockListener implements Listener {
         }
 
 		/*
-		 * // Alternative: Enforce a blank sign, as bukkit catches spoofed
+         * // Alternative: Enforce a blank sign, as bukkit catches spoofed
 		 * packets now. // No longer needed, as the findOwner now has an ignore
 		 * block.
 		 * 
@@ -618,8 +618,8 @@ public class LocketteBlockListener implements Listener {
 		 * sign.setLine(0, ""); sign.setLine(1, ""); sign.setLine(2, "");
 		 * sign.setLine(3, ""); sign.update(true); } }
 		 */
-		/*
-		 * // Colorizer code. // Moved to PrefixListener
+        /*
+         * // Colorizer code. // Moved to PrefixListener
 		 * 
 		 * if(Lockette.colorTags){ event.setLine(0,
 		 * event.getLine(0).replaceAll("&([0-9A-Fa-f])", "\u00A7$1"));
@@ -715,7 +715,6 @@ public class LocketteBlockListener implements Listener {
                     return;
                 }
             }
-
             int x;
             Block checkBlock[] = new Block[4];
             byte face = 0;
@@ -749,11 +748,11 @@ public class LocketteBlockListener implements Listener {
                                     }
                                 }
                             }
-							/*
-							 * if(Lockette.findBlockOwner(checkBlock[3], block,
-							 * true) == null){ if(!doTrapDoors) deny = true;
-							 * else{ face = block.getData(); type = 4; } }
-							 */
+                            //
+                            //if(Lockette.findBlockOwner(checkBlock[3], block,
+                            // true) == null){ if(!doTrapDoors) deny = true;
+                            //  else{ face = block.getData(); type = 4; } }
+                            //
                         }
                 }
 
@@ -761,6 +760,9 @@ public class LocketteBlockListener implements Listener {
             if (Lockette.protectDoors)
                 if (typeWallSign) {
                     checkBlock[0] = Lockette.getSignAttachedBlock(block);
+                    if (Lockette.DEBUG) {
+                        Lockette.log.info("[Lockette] checkBlock[0] : " + checkBlock[0]);
+                    }
 
                     if (checkBlock[0] != null)
                         if (!BlockUtil.isInList(checkBlock[0].getTypeId(), BlockUtil.materialListBad)) {
@@ -828,7 +830,6 @@ public class LocketteBlockListener implements Listener {
                 face = 0;
                 type = 0;
             }
-
             if (face == 0) {
                 int lastType;
 
@@ -950,6 +951,7 @@ public class LocketteBlockListener implements Listener {
             if (Lockette.DEBUG) {
                 Lockette.log.info("[Lockette] creating new Lockette sign");
                 Lockette.log.info("[Lockette] 1st line = " + event.getLine(1));
+                Lockette.log.info("[Lockette] type = " + type);
             }
 
             if (event.getLine(1).isEmpty())
@@ -1142,7 +1144,7 @@ public class LocketteBlockListener implements Listener {
             } else
                 block.setData(face);
 
-            if(Lockette.colorTags){
+            if (Lockette.colorTags) {
                 event.setLine(0, ChatColor.translateAlternateColorCodes('&', event.getLine(0)));
                 event.setLine(1, ChatColor.translateAlternateColorCodes('&', event.getLine(1)));
                 event.setLine(2, ChatColor.translateAlternateColorCodes('&', event.getLine(2)));
