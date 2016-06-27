@@ -36,7 +36,7 @@ import java.util.*;
 
 
 public class Lockette extends PluginCore {
-    static boolean DEBUG = true;
+    static boolean DEBUG = false;
 
     private static Lockette plugin;
     private static boolean enabled = false;
@@ -728,7 +728,7 @@ public class Lockette extends PluginCore {
 
         if (type == Material.WALL_SIGN.getId()) {
             Sign sign = (Sign) block.getState();
-            String text = sign.getLine(0).replaceAll("(?i)\u00A7[0-F]", "").toLowerCase();
+            String text = ChatColor.stripColor(sign.getLine(0)).toLowerCase();
 
             if (text.equals("[private]") || text.equalsIgnoreCase(altPrivate)) {
                 return (true);
@@ -1697,6 +1697,9 @@ public class Lockette extends PluginCore {
     static void setLine(Sign sign, int index, String typed, OfflinePlayer player) {
         // set whatever typed on the sign anyway.
         String cline = ChatColor.translateAlternateColorCodes('&', typed);
+        if (Lockette.DEBUG) {
+            System.out.println("[Lockette](setLine) cline : " + cline);
+        }
         sign.setLine(index, cline);
         sign.update(true);
 
@@ -1750,6 +1753,10 @@ public class Lockette extends PluginCore {
             String line = sign.getLine(index);
             String checkline = ChatColor.stripColor(line);
 
+            if (Lockette.DEBUG) {
+                Lockette.log.info("[Lockette] matchUserUUID : checkline = " + checkline);
+            }
+
             if ((checkline.indexOf("[") == 0 && checkline.indexOf("]") > 1) ||
                     line.isEmpty()) {
                 return false;
@@ -1794,6 +1801,11 @@ public class Lockette extends PluginCore {
 
             // not old hack UUID format and just player name?
             // then convert the existing name to uuid then compare uuid
+            if (Lockette.DEBUG) {
+                Lockette.log.info("[Lockette] hasMeta? : " + sign.hasMetadata(META_KEY));
+                Lockette.log.info("[Lockette] uuid ? : " + getUUIDFromMeta(sign, index));
+            }
+
             if (!sign.hasMetadata(META_KEY) || getUUIDFromMeta(sign, index) == null) {
                 if (Lockette.DEBUG) {
                     log.info("[Lockette] Checking for original format for " + checkline);
@@ -1837,15 +1849,6 @@ public class Lockette extends PluginCore {
             }
 
             if (uuid != null) {
-                if (uuid.equals(player.getUniqueId())) {
-                    //Check if the Player name has changen and update it
-                    if (!ChatColor.stripColor(ChatColor.stripColor(name)).equals(player.getName())) {
-                        sign.setLine(index, player.getName());
-                        sign.update();
-                    }
-                    return true;
-                }
-
                 // this to remove falsely generated uuid.
                 OfflinePlayer oplayer = Bukkit.getOfflinePlayer(uuid);
                 if (!oplayer.hasPlayedBefore()) {
@@ -1853,6 +1856,30 @@ public class Lockette extends PluginCore {
                         log.info("[Lockette] removing bad UUID");
                     }
                     removeUUIDMetadata(sign);
+                } else {
+                    if (uuid.equals(player.getUniqueId())) {
+                        //Check if the Player name has changen and update it
+                        if (!ChatColor.stripColor(ChatColor.stripColor(name)).equals(player.getName())) {
+                            if (Lockette.DEBUG) {
+                                Lockette.log.info("[Lockette] setting name : " + player.getName());
+                            }
+
+                            sign.setLine(index, player.getName());
+                            sign.update();
+                        }
+                        if (Lockette.DEBUG) {
+                            Lockette.log.info("[Lockette] uuid equal");
+                        }
+
+                        return true;
+                    } else {
+                        if (Lockette.DEBUG) {
+                            Lockette.log.info("[Lockette] reset name to " + oplayer.getName());
+                        }
+
+                        sign.setLine(index, oplayer.getName());
+                        sign.update();
+                    }
                 }
             } else { // check the name history
                 List<String> names = getPreviousNames(player.getUniqueId());

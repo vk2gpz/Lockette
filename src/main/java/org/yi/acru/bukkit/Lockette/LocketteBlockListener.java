@@ -267,8 +267,9 @@ public class LocketteBlockListener implements Listener {
 
                 type = checkBlock.getTypeId();
 
-                if (BlockUtil.isInList(type, BlockUtil.materialListNonDoors)
-                        || Lockette.isInList(type, Lockette.customBlockList)) {
+                if (BlockUtil.isInList(type, BlockUtil.materialListNonDoors) ||
+                        BlockUtil.isInList(type, BlockUtil.materialListDoors) ||
+                        Lockette.isInList(type, Lockette.customBlockList)) {
 
                     Sign sign = (Sign) block.getState();
 
@@ -432,6 +433,9 @@ public class LocketteBlockListener implements Listener {
                     create = true;
             } else if (Lockette.isInList(type, Lockette.customBlockList)) {
                 if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.custom"))
+                    create = true;
+            } else if (BlockUtil.isInList(type, BlockUtil.materialListDoors)) {
+                if (plugin.hasPermission(block.getWorld(), player, "lockette.user.create.door"))
                     create = true;
             }
 

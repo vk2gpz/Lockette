@@ -186,17 +186,18 @@ public class LockettePlayerListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event){
-		if(!event.hasBlock()) return;
+		if (!event.hasBlock())
+			return;
 		
-		Action		action = event.getAction();
-		Player		player = event.getPlayer();
-		Block		block = event.getClickedBlock();
-		int			type = block.getTypeId();
-		BlockFace	face = event.getBlockFace();
-		ItemStack	item;
+		Action action = event.getAction();
+		Player player = event.getPlayer();
+		Block block = event.getClickedBlock();
+		int type = block.getTypeId();
+		BlockFace face = event.getBlockFace();
+		ItemStack item;
 		
 		if (action == Action.RIGHT_CLICK_BLOCK){
-			
+
 			// Check we are allowed to used this trapdoor
 			if ((Lockette.protectTrapDoors) && (BlockUtil.isInList(type, BlockUtil.materialListTrapDoors))) {
 				
@@ -325,22 +326,25 @@ public class LockettePlayerListener implements Listener{
 	
 	// Returns true if it should be allowed, false if it should be canceled.
 	private static boolean interactDoor(Block block, Player player){
-		Block		signBlock = Lockette.findBlockOwner(block);
+		Block signBlock = Lockette.findBlockOwner(block);
 		
-		if(signBlock == null) return(true);
+		if (signBlock == null)
+            return true;
 		
-		boolean		wooden = BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListWoodenDoors);
-		boolean		trap = false;
+		boolean wooden = BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListWoodenDoors);
+		boolean trap = false;
 
-		if(Lockette.protectTrapDoors) if(BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListTrapDoors)) {
+		if (Lockette.protectTrapDoors)
+            if(BlockUtil.isInList(block.getTypeId(), BlockUtil.materialListTrapDoors)) {
 				trap = true;
 			}
 		
 		// Someone touched an owned door, lets see if they are allowed.
 		
-		boolean		allow = false;
+		boolean allow = false;
 		
-		if(canInteract(block, signBlock, player, true)) allow = true;
+		if (canInteract(block, signBlock, player, true))
+            allow = true;
 		
 		/*
 		// Fee stuff...
@@ -490,23 +494,21 @@ public class LockettePlayerListener implements Listener{
 		
 		// Moved to outer..
 		
-		
 		// Lets see if the player is allowed to touch...
-		
-		Sign		sign = (Sign) signBlock.getState();
-		String		line;
+		Sign sign = (Sign) signBlock.getState();
+		String line;
 
 		// Check owner and other users
 		if (Lockette.isUser(block, player, true))
 			return true;
 		
 		// Check admin list last.
+		boolean snoop = false;
 		
-		boolean		snoop = false;
-		
-		if(isDoor){
-			if(Lockette.adminBypass){
-				if(plugin.hasPermission(block.getWorld(), player, "lockette.admin.bypass")) snoop = true;
+		if (isDoor) {
+			if (Lockette.adminBypass) {
+				if (plugin.hasPermission(block.getWorld(), player, "lockette.admin.bypass"))
+                    snoop = true;
 				
 				if(snoop){
 					Lockette.log.info("[" + plugin.getDescription().getName() + "] (Admin) " + player.getName() + " has bypassed a door owned by " + sign.getLine(1));
